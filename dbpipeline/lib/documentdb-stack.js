@@ -1,7 +1,6 @@
 const cdk = require("aws-cdk-lib");
 const ec2 = require("aws-cdk-lib/aws-ec2");
-const docdb = require("aws-cdk-lib/aws-docdb");
-const { Construct } = require("constructs");
+const docdbElastic = require("aws-cdk-lib/aws-docdbelastic");
 
 class DocumentDbStack extends cdk.Stack {
   constructor(scope, id, props) {
@@ -11,24 +10,30 @@ class DocumentDbStack extends cdk.Stack {
 
     const sg = ec2.SecurityGroup.fromSecurityGroupId(
       this,
-      "ExistingDocDbSG",
+      "sg-0a518627099d85813-Database",
       "sg-0a518627099d85813",
       { mutable: false }
     );
 
-    const cluster = new docdb.CfnDBCluster(this, "DocDbCluster", {
-      masterUsername: "docdbMaster",
-      masterUserPassword: "SuperSecretPass123!",
-      engineVersion: "5.0",
-      vpcSecurityGroupIds: [sg.securityGroupId],
-      storageEncrypted: true,
-      backupRetentionPeriod: 7,
-      deletionProtection: false
-    });
+    const serverlessCluster = new docdbElastic.CfnCluster(
+      this,
+      "pvl-users-qual-qa-v4",
+      {
+        clusterName: "pvl-users-qual-qa-v4",
+        adminUserName: "docdbMaster",
+        adminUserPassword: "SuperSecretPass123",
+        authType: "PLAIN_TEXT",
+        shardCount: 1,
+        shardCapacity: 2,
+        subnetIds: ["subnet-0018071d85dcd8587", "subnet-0edce4a02d4e06e30"],
+        vpcSecurityGroupIds: [sg.securityGroupId],
+        deletionProtection: false
+      }
+    );
 
-    new docdb.CfnDBInstance(this, "DocDbInstance1", {
-      dbClusterIdentifier: cluster.ref,
-      dbInstanceClass: "db.r5.large"
+    new cdk.CfnOutput(this, "ServerlessEndpoint", {
+      value: serverlessCluster.attrClusterEndpoint,
+      description: "DocumentDB Serverless Endpoint"
     });
   }
 }
