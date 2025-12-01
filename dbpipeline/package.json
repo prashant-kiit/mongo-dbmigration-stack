@@ -1,0 +1,20 @@
+{
+  "name": "documentdb-cdk",
+  "version": "1.0.0",
+  "bin": {
+    "documentdb-cdk": "bin/documentdb-cdk.js"
+  },
+  "scripts": {
+    "build": "echo \"No build step required for JS\"",
+    "watch": "echo \"No watch step\"",
+    "test": "echo \"No tests\"",
+    "cdk": "cdk"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.153.0",
+    "constructs": "^10.3.0"
+  },
+  "devDependencies": {
+    "aws-cdk": "^2.153.0"
+  }
+}
