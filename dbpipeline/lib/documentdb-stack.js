@@ -7,44 +7,53 @@ class DocumentDbStack extends cdk.Stack {
   constructor(scope, id, props) {
     super(scope, id, props);
 
-    // VPC (you can replace with fromLookup)
-    const vpc = new ec2.Vpc(this, "DocDbVpc", {
-      maxAzs: 2,
-      natGateways: 1,
+    console.log("Deploying to:", props.env);
+
+    // ✅ Use existing VPC
+    const vpc = ec2.Vpc.fromLookup(this, "ExistingVpc", {
+      vpcId: "vpc-7ae31207"
     });
 
-    // Security Group
-    const sg = new ec2.SecurityGroup(this, "DocDbSg", {
-      vpc,
-      description: "Allow DocumentDB access",
-      allowAllOutbound: true,
-    });
+    // ✅ Use existing Security Group
+    const sg = ec2.SecurityGroup.fromSecurityGroupId(
+      this,
+      "ExistingDocDbSG",
+      "sg-0a518627099d85813",
+      { mutable: false }
+    );
 
-    // Allow local machine IP (change 1.2.3.4/32)
-    sg.addIngressRule(ec2.Peer.ipv4("1.2.3.4/32"), ec2.Port.tcp(27017));
+    // ❌ Do NOT add ingress rules (not allowed on existing SG)
+    // sg.addIngressRule(...)  <-- removed
+
+    // ✅ Subnets only in AZ us-east-1b
+    const subnetsIn1b = vpc.selectSubnets({
+      availabilityZones: ["us-east-1b"],
+      subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
+    });
 
     // Subnet Group
     const subnetGroup = new docdb.CfnDBSubnetGroup(this, "DocDbSubnetGroup", {
-      dbSubnetGroupDescription: "Subnet group for DocumentDB",
-      subnetIds: vpc.privateSubnets.map((s) => s.subnetId),
-      dbSubnetGroupName: "docdb-subnet-group",
+      dbSubnetGroupDescription: "Subnet group for DocumentDB in us-east-1b",
+      subnetIds: subnetsIn1b.subnetIds,
     });
 
     // DocumentDB Cluster
     const cluster = new docdb.CfnDBCluster(this, "DocDbCluster", {
-      masterUsername: "admin",
+      masterUsername: "docdbMaster",
       masterUserPassword: "SuperSecretPass123!",
       engineVersion: "5.0",
       dbSubnetGroupName: subnetGroup.dbSubnetGroupName,
       vpcSecurityGroupIds: [sg.securityGroupId],
       storageEncrypted: true,
       backupRetentionPeriod: 7,
+      availabilityZones: ["us-east-1b"]
     });
 
     // Cluster Instance
     new docdb.CfnDBInstance(this, "DocDbInstance1", {
       dbClusterIdentifier: cluster.ref,
       dbInstanceClass: "db.r5.large",
+      availabilityZone: "us-east-1b"  // <-- Force instance to this AZ
     });
   }
 }
