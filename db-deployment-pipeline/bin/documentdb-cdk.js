@@ -5,18 +5,40 @@ const { DocumentDbStack } = require("../lib/documentdb-stack");
 
 const app = new cdk.App();
 
-const environment = app.node.tryGetContext("env") || "development";
+const environment = process.env.DEPLOY_ENV;
+
+console.log("Deploying to environment:", environment);
+
+if (
+  !(
+    environment === "qual-qa" ||
+    environment === "staging" ||
+    environment === "production"
+  )
+) {
+  throw new Error(
+    "Please set the ENV environment variable to 'qual-qa', 'staging', or 'production'"
+  );
+}
+
+console.log("Deploying to environment:", environment);
 
 const accounts = {
   production: {
     account: "591636224332",
     region: "us-east-1",
   },
-  development: {
+  staging: {
+    account: "591636224332",
+    region: "us-east-1",
+  },
+  "qual-qa": {
     account: "631543112504",
     region: "us-east-1",
   },
 };
+
+console.log("Using account details:", accounts[environment]);
 
 const configurations = {
   production: {
@@ -33,7 +55,7 @@ const configurations = {
     securityGroupID: "sg-0e3e9ff15fef824e3",
     dbClusterName: "pvl-users-staging",
     adminUserName: "pvluseradminkonovostaging",
-    adminUserPassword: "ji7JkD3v4bWQ8Ns", 
+    adminUserPassword: "ji7JkD3v4bWQ8Ns",
     subnetIds: ["subnet-fa6965b1", "subnet-f5a9edda"],
     deletionProtection: false,
   },
@@ -48,7 +70,9 @@ const configurations = {
   },
 };
 
-new DocumentDbStack(app, "DocumentDbStack", {
-  account: accounts[environment],
-  configuration: configurations[environment],
-});
+console.log("Using configuration:", configurations[environment]);
+
+// new DocumentDbStack(app, "DocumentDbStack", {
+//   account: accounts[environment],
+//   configuration: configurations[environment],
+// });

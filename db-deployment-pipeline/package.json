@@ -5,10 +5,7 @@
     "documentdb-cdk": "bin/documentdb-cdk.js"
   },
   "scripts": {
-    "build": "echo \"No build step required for JS\"",
-    "watch": "echo \"No watch step\"",
-    "test": "echo \"No tests\"",
-    "cdk": "cdk"
+    "deploy": "cdk deploy"
   },
   "dependencies": {
     "aws-cdk-lib": "^2.153.0"
