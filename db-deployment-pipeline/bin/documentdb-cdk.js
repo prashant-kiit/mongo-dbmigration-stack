@@ -67,4 +67,5 @@ console.log("Using configuration:", configurations[DEPLOY_ENV]);
 new DocumentDbStack(app, "DocumentDbStack", {
   env: env[DEPLOY_ENV],
   configuration: configurations[DEPLOY_ENV],
+  DEPLOY_ENV: DEPLOY_ENV,
 });

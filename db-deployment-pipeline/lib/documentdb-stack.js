@@ -6,7 +6,7 @@ class DocumentDbStack extends cdk.Stack {
   constructor(scope, id, props) {
     super(scope, id, props);
 
-    const { configuration } = props;
+    const { configuration, DEPLOY_ENV } = props;
 
     const sg = ec2.SecurityGroup.fromSecurityGroupId(
       this,
@@ -28,6 +28,17 @@ class DocumentDbStack extends cdk.Stack {
         subnetIds: configuration.subnetIds,
         vpcSecurityGroupIds: [sg.securityGroupId],
         deletionProtection: configuration.deletionProtection,
+        backupRetentionPeriod: 7,
+        preferredBackupWindow: "00:00-00:30",
+        preferredMaintenanceWindow: "sat:08:51-sat:09:21",
+        // tags: [
+        //   { key: "Environment", value: DEPLOY_ENV },
+        //   { key: "Application", value: "pvl-users-database" },
+        //   { key: "Owner", value: "arijitbose/saravanakumar"},
+        //   { key: "Cost Center", value: "arijitbose/saravanakumar"},
+        //   { key: "Project", value: "pvlusers"},
+        //   { key: "Created By", value: "cdk"},
+        // ]
       }
     );
 
