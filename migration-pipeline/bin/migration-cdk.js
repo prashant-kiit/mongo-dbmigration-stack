@@ -3,36 +3,36 @@ const { MigrationStack } = require("../lib/migration-stack");
 
 const app = new cdk.App();
 
-const environment = process.env.DEPLOY_ENV;
+const DEPLOY_ENV = process.env.DEPLOY_ENV;
 
 if (
-  environment !== "production" &&
-  environment !== "staging" &&
-  environment !== "qual-qa"
+  DEPLOY_ENV !== "production" &&
+  DEPLOY_ENV !== "staging" &&
+  DEPLOY_ENV !== "qual-qa"
 ) {
   throw new Error(
-    "Please set the ENV environment variable to 'production', 'staging', or 'qual-qa'"
+    "Please set the DEPLOY_ENV variable to 'production', 'staging', or 'qual-qa'"
   );
 }
 
-console.log("Deploying to environment:", environment);
+console.log("Deploying to DEPLOY_ENV:", DEPLOY_ENV);
 
-const accounts = {
+const env = {
   production: {
-    accountId: "591636224332",
+    account: "591636224332",
     region: "us-east-1",
   },
   staging: {
-    accountId: "591636224332",
+    account: "591636224332",
     region: "us-east-1",
   },
   "qual-qa": {
-    accountId: "631543112504",
+    account: "631543112504",
     region: "us-east-1",
   },
 };
 
-console.log("Using account details:", accounts[environment]);
+console.log("Using account details:", env[DEPLOY_ENV]);
 
 const configurations = {
   production: {
@@ -73,9 +73,9 @@ const configurations = {
   },
 };
 
-console.log("Using configuration:", configurations[environment]);
+console.log("Using configuration:", configurations[DEPLOY_ENV]);
 
-// new MigrationStack(app, "MigrationStack", {
-//   account: accounts[environment],
-//   configuration: configurations[environment],
-// });
+new MigrationStack(app, "MigrationStack", {
+  env: env[DEPLOY_ENV],
+  configuration: configurations[DEPLOY_ENV],
+});

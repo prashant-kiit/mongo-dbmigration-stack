@@ -5,17 +5,17 @@ const { DocumentDbStack } = require("../lib/documentdb-stack");
 
 const app = new cdk.App();
 
-const environment = process.env.DEPLOY_ENV;
+const DEPLOY_ENV = process.env.DEPLOY_ENV;
 
-if (environment !== "production" && environment !== "staging" && environment !== "qual-qa") {
+if (DEPLOY_ENV !== "production" && DEPLOY_ENV !== "staging" && DEPLOY_ENV !== "qual-qa") {
   throw new Error(
-    "Please set the ENV environment variable to 'qual-qa', 'staging', or 'production'"
+    "Please set the DEPLOY_ENV variable to 'qual-qa', 'staging', or 'production'"
   );
 }
 
-console.log("Deploying to environment:", environment);
+console.log("Deploying to DEPLOY_ENV:", DEPLOY_ENV);
 
-const accounts = {
+const env = {
   production: {
     account: "591636224332",
     region: "us-east-1",
@@ -30,7 +30,7 @@ const accounts = {
   },
 };
 
-console.log("Using account details:", accounts[environment]);
+console.log("Using account details:", env[DEPLOY_ENV]);
 
 const configurations = {
   production: {
@@ -62,9 +62,9 @@ const configurations = {
   },
 };
 
-console.log("Using configuration:", configurations[environment]);
+console.log("Using configuration:", configurations[DEPLOY_ENV]);
 
-// new DocumentDbStack(app, "DocumentDbStack", {
-//   account: accounts[environment],
-//   configuration: configurations[environment],
-// });
+new DocumentDbStack(app, "DocumentDbStack", {
+  env: env[DEPLOY_ENV],
+  configuration: configurations[DEPLOY_ENV],
+});
