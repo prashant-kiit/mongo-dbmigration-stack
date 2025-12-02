@@ -43,8 +43,8 @@ const configurations = {
     oldAdminUsername: "incrowdadmin",
     oldAdminPassword: "6DYfDcG1n9DWk1TvLLxyIgdTsAy4BFnPxTR",
     newDbClusterName: "pvl-users-production",
-    newAdminUsername: "pvluseradminkonovoprod",
-    newAdminPassword: "junK8m3b4wQX5Ls",
+    newAdminUsername: "incrowdadmin",
+    newAdminPassword: "6DYfDcG1n9DWk1TvLLxyIgdTsAy4BFnPxTR",
     subnetIds: ["subnet-b12dbd9d", "subnet-8ec48fc6"],
   },
   staging: {
@@ -55,8 +55,8 @@ const configurations = {
     oldAdminUsername: "pvlqaadmin",
     oldAdminPassword: "kA17GrwdgLXUeqt",
     newDbClusterName: "pvl-users-staging",
-    newAdminUsername: "pvluseradminkonovostaging",
-    newAdminPassword: "ji7JkD3v4bWQ8Ns",
+    newAdminUsername: "pvlqaadmin",
+    newAdminPassword: "kA17GrwdgLXUeqt",
     subnetIds: ["subnet-fa6965b1", "subnet-f5a9edda"],
   },
   "qual-qa": {
@@ -67,8 +67,8 @@ const configurations = {
     oldAdminUsername: "pvlqualqaadmin",
     oldAdminPassword: "26rJa88iHxvpyUR",
     newDbClusterName: "pvl-users-qual-qa-v2",
-    newAdminUsername: "pvluseradminkonovoqualqa",
-    newAdminPassword: "f9QmT27aVxpRkJH",
+    newAdminUsername: "pvlqualqaadmin",
+    newAdminPassword: "26rJa88iHxvpyUR",
     subnetIds: ["subnet-0018071d85dcd8587", "subnet-0edce4a02d4e06e30"],
   },
 };
