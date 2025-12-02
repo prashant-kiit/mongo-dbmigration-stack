@@ -1,0 +1,20 @@
+{
+  "name": "migration-pipeline",
+  "version": "1.0.0",
+  "bin": {
+    "migration-cdk": "bin/migration-cdk.js"
+  },
+  "scripts": {
+    "build": "echo \"No build step required for JS\"",
+    "watch": "echo \"No watch step\"",
+    "test": "echo \"No tests\"",
+    "cdk": "cdk"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.153.0",
+    "constructs": "^10.3.0"
+  },
+  "devDependencies": {
+    "aws-cdk": "^2.153.0"
+  }
+}
