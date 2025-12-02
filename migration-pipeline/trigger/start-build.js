@@ -1,11 +1,13 @@
 const { CodeBuildClient, StartBuildCommand } = require("@aws-sdk/client-codebuild");
 
-const client = new CodeBuildClient({ region: "us-east-1" });
+console.log("Triggering the migration build...");
 
-const command = new StartBuildCommand({
-  projectName: "PVLDocumentdbMigrationQualQ-T4i5IAedXYlR",
-});
+// const client = new CodeBuildClient({ region: "us-east-1" });
 
-client.send(command).then((response) => {
-  console.log("Triggered Build:", response.build.id);
-});
+// const command = new StartBuildCommand({
+//   projectName: "PVLDocumentdbMigrationQualQ-T4i5IAedXYlR",
+// });
+
+// client.send(command).then((response) => {
+//   console.log("Triggered Build:", response.build.id);
+// });

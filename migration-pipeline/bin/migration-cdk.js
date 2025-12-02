@@ -3,18 +3,36 @@ const { MigrationStack } = require("../lib/migration-stack");
 
 const app = new cdk.App();
 
-const environment = app.node.tryGetContext("env") || "development";
+const environment = process.env.DEPLOY_ENV;
+
+if (
+  environment !== "production" &&
+  environment !== "staging" &&
+  environment !== "qual-qa"
+) {
+  throw new Error(
+    "Please set the ENV environment variable to 'production', 'staging', or 'qual-qa'"
+  );
+}
+
+console.log("Deploying to environment:", environment);
 
 const accounts = {
   production: {
     accountId: "591636224332",
     region: "us-east-1",
   },
-  development: {
+  staging: {
+    accountId: "591636224332",
+    region: "us-east-1",
+  },
+  "qual-qa": {
     accountId: "631543112504",
     region: "us-east-1",
   },
 };
+
+console.log("Using account details:", accounts[environment]);
 
 const configurations = {
   production: {
@@ -55,7 +73,9 @@ const configurations = {
   },
 };
 
-new MigrationStack(app, "MigrationStack", {
-  account: accounts[environment],
-  configuration: configurations[environment],
-});
+console.log("Using configuration:", configurations[environment]);
+
+// new MigrationStack(app, "MigrationStack", {
+//   account: accounts[environment],
+//   configuration: configurations[environment],
+// });

@@ -5,10 +5,8 @@
     "migration-cdk": "bin/migration-cdk.js"
   },
   "scripts": {
-    "build": "echo \"No build step required for JS\"",
-    "watch": "echo \"No watch step\"",
-    "test": "echo \"No tests\"",
-    "cdk": "cdk"
+    "deploy": "cdk deploy",
+    "migrate": "node trigger/start-build.js"
   },
   "dependencies": {
     "@aws-sdk/client-codebuild": "^3.940.0",

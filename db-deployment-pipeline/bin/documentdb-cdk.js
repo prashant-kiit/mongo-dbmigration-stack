@@ -7,15 +7,7 @@ const app = new cdk.App();
 
 const environment = process.env.DEPLOY_ENV;
 
-console.log("Deploying to environment:", environment);
-
-if (
-  !(
-    environment === "qual-qa" ||
-    environment === "staging" ||
-    environment === "production"
-  )
-) {
+if (environment !== "production" && environment !== "staging" && environment !== "qual-qa") {
   throw new Error(
     "Please set the ENV environment variable to 'qual-qa', 'staging', or 'production'"
   );
