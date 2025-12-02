@@ -6,25 +6,27 @@ class MigrationStack extends cdk.Stack {
   constructor(scope, id, props) {
     super(scope, id, props);
 
+    const { account, configuration } = props;
+
     const vpc = ec2.Vpc.fromLookup(this, "ExistingVpc", {
-      vpcId: "vpc-7ae31207"
+      vpcId: configuration.vpcId,
     });
 
     const sg = ec2.SecurityGroup.fromSecurityGroupId(
       this,
-      "sg-0a518627099d85813-Database",
-      "sg-0a518627099d85813",
+      configuration.securityGroupName,
+      configuration.securityGroupID,
       { mutable: false }
     );
 
-    const subnet1 = ec2.Subnet.fromSubnetId(this, "Subnet1", "subnet-0018071d85dcd8587"); 
-    const subnet2 = ec2.Subnet.fromSubnetId(this, "Subnet2", "subnet-0edce4a02d4e06e30");
+    const subnet1 = ec2.Subnet.fromSubnetId(this, "Subnet1", configuration.subnetIds[0]); 
+    const subnet2 = ec2.Subnet.fromSubnetId(this, "Subnet2", configuration.subnetIds[1]);
 
     const subnetSelection = {
       subnets: [subnet1, subnet2]
     };
 
-    const project = new codebuild.Project(this, "PVLDocumentdbMigrationQualQa", {
+    const project = new codebuild.Project(this, configuration.dbClusterName, {
       vpc: vpc,
       subnetSelection: subnetSelection,
       securityGroups: [sg],
@@ -43,11 +45,11 @@ class MigrationStack extends cdk.Stack {
           },
           build: {
             commands: [
-              "mongodump --host pvl-users-qual-qa.cluster-cpocv8v6scdp.us-east-1.docdb.amazonaws.com:27017 --username pvlqualqaadmin --password 26rJa88iHxvpyUR --out /tmp/docdb-backup",
+              `mongodump --host ${configuration.oldDbClusterName}.us-east-1.docdb.amazonaws.com:27017 --username ${configuration.oldAdminUsername} --password ${configuration.oldAdminPassword} --out /tmp/docdb-backup`,
               "cd /tmp/docdb-backup",
               "ls -al",
               "cd ~",
-              "mongorestore --host pvl-users-qual-qa-v6-631543112504.us-east-1.docdb-elastic.amazonaws.com --port 27017 --username docdbMaster --password SuperSecretPass123 --ssl --authenticationMechanism SCRAM-SHA-1 /tmp/docdb-backup",
+              `mongorestore --host ${configuration.newDbClusterName}-${account.accountId}.us-east-1.docdb-elastic.amazonaws.com --port 27017 --username ${configuration.newAdminUsername} --password ${configuration.newAdminPassword} --ssl --authenticationMechanism SCRAM-SHA-1 /tmp/docdb-backup`,
             ],
           },
         },
