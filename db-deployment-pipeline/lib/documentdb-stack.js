@@ -6,28 +6,28 @@ class DocumentDbStack extends cdk.Stack {
   constructor(scope, id, props) {
     super(scope, id, props);
 
-    console.log("Deploying to:", props.env);
+    const { configuration } = props;
 
     const sg = ec2.SecurityGroup.fromSecurityGroupId(
       this,
-      "sg-0a518627099d85813-Database",
-      "sg-0a518627099d85813",
+      configuration.securityGroupName,
+      configuration.securityGroupID,
       { mutable: false }
     );
 
     const serverlessCluster = new docdbElastic.CfnCluster(
       this,
-      "pvl-users-qual-qa-v6",
+      configuration.dbClusterName,
       {
-        clusterName: "pvl-users-qual-qa-v6",
-        adminUserName: "docdbMaster",
-        adminUserPassword: "SuperSecretPass123",
+        clusterName: configuration.dbClusterName,
+        adminUserName: configuration.adminUserName,
+        adminUserPassword: configuration.adminUserPassword,
         authType: "PLAIN_TEXT",
         shardCount: 1,
         shardCapacity: 2,
-        subnetIds: ["subnet-0018071d85dcd8587", "subnet-0edce4a02d4e06e30"],
+        subnetIds: configuration.subnetIds,
         vpcSecurityGroupIds: [sg.securityGroupId],
-        deletionProtection: false
+        deletionProtection: configuration.deletionProtection,
       }
     );
 
