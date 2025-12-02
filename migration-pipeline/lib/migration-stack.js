@@ -1,31 +1,33 @@
 const cdk = require("aws-cdk-lib");
 const codebuild = require("aws-cdk-lib/aws-codebuild");
-const iam = require("aws-cdk-lib/aws-iam");
+const ec2 = require("aws-cdk-lib/aws-ec2");
 
 class MigrationStack extends cdk.Stack {
   constructor(scope, id, props) {
     super(scope, id, props);
 
-    // const role = new iam.Role(this, "CodeBuildRole", {
-    //   assumedBy: new iam.ServicePrincipal("codebuild.amazonaws.com"),
-    //   managedPolicies: [
-    //     iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonS3FullAccess"),
-    //     iam.ManagedPolicy.fromAwsManagedPolicyName("CloudWatchLogsFullAccess"),
-    //   ],
-    // });
+    const vpc = ec2.Vpc.fromLookup(this, "ExistingVpc", {
+      vpcId: "vpc-7ae31207"
+    });
 
-    const project = new codebuild.Project(this, "documentdb-migration-qual-qa", {
-      projectName: "documentdb-migration-qual-qa",
-      // role: role,
-      // source: codebuild.Source.gitHub({
-      //   owner: "your-github-user",
-      //   repo: "your-repo",
-      //   branchOrRef: "main",
-      // }),
-      // environment: {
-      //   buildImage: codebuild.LinuxBuildImage.STANDARD_7_0,
-      //   computeType: codebuild.ComputeType.SMALL,
-      // },
+    const sg = ec2.SecurityGroup.fromSecurityGroupId(
+      this,
+      "sg-0a518627099d85813-Database",
+      "sg-0a518627099d85813",
+      { mutable: false }
+    );
+
+    const subnet1 = ec2.Subnet.fromSubnetId(this, "Subnet1", "subnet-0018071d85dcd8587"); 
+    const subnet2 = ec2.Subnet.fromSubnetId(this, "Subnet2", "subnet-0edce4a02d4e06e30");
+
+    const subnetSelection = {
+      subnets: [subnet1, subnet2]
+    };
+
+    const project = new codebuild.Project(this, "PVLDocumentdbMigrationQualQa", {
+      vpc: vpc,
+      subnetSelection: subnetSelection,
+      securityGroups: [sg],
       buildSpec: codebuild.BuildSpec.fromObject({
         version: "0.2",
         phases: {
@@ -36,7 +38,7 @@ class MigrationStack extends cdk.Stack {
               "sudo mv mongodb-database-tools-ubuntu2004-*/bin/* /usr/local/bin/",
             ],
           },
-          "pre-build": {
+          pre_build: {
             commands: ["mongodump --version", "mongorestore --version"],
           },
           build: {

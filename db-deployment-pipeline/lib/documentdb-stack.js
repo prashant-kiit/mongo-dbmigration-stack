@@ -17,9 +17,9 @@ class DocumentDbStack extends cdk.Stack {
 
     const serverlessCluster = new docdbElastic.CfnCluster(
       this,
-      "pvl-users-qual-qa-v5",
+      "pvl-users-qual-qa-v6",
       {
-        clusterName: "pvl-users-qual-qa-v5",
+        clusterName: "pvl-users-qual-qa-v6",
         adminUserName: "docdbMaster",
         adminUserPassword: "SuperSecretPass123",
         authType: "PLAIN_TEXT",
