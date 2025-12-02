@@ -5,7 +5,8 @@
     "documentdb-cdk": "bin/documentdb-cdk.js"
   },
   "scripts": {
-    "deploy": "cdk deploy"
+    "deploy": "cdk deploy",
+    "destroy": "cdk destroy"
   },
   "dependencies": {
     "aws-cdk-lib": "^2.153.0"

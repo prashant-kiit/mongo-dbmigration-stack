@@ -6,9 +6,11 @@
   },
   "scripts": {
     "deploy": "cdk deploy",
+    "destroy": "cdk destroy",
     "migrate": "node trigger/start-build.js"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudformation": "^3.943.0",
     "@aws-sdk/client-codebuild": "^3.940.0",
     "aws-cdk-lib": "^2.153.0"
   },
