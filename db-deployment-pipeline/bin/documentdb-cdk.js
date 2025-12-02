@@ -5,8 +5,6 @@ const { DocumentDbStack } = require("../lib/documentdb-stack");
 
 const app = new cdk.App();
 
-// environment selection using CDK context or CLI
-// Example: cdk deploy -c env=production
 const envName = app.node.tryGetContext("env") || "development";
 
 const accounts = {
