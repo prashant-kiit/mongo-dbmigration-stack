@@ -24,6 +24,10 @@ async function main() {
 
   console.log("CodeBuild Project Name =", projectName);
 
+  if (!projectName.toLowerCase().includes("pvlusers")) {
+    throw new Error(`Project name "${projectName}" is not the migraton project`);
+  }
+
   const codebuildClient = new CodeBuildClient({ region: "us-east-1" });
 
   const command = new StartBuildCommand({
