@@ -1,5 +1,5 @@
 {
-  "name": "migration-pipeline",
+  "name": "migration-cdk",
   "version": "1.0.0",
   "bin": {
     "migration-cdk": "bin/migration-cdk.js"
@@ -11,8 +11,8 @@
     "cdk": "cdk"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.153.0",
-    "constructs": "^10.3.0"
+    "@aws-sdk/client-codebuild": "^3.940.0",
+    "aws-cdk-lib": "^2.153.0"
   },
   "devDependencies": {
     "aws-cdk": "^2.153.0"
