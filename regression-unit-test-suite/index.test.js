@@ -22,7 +22,7 @@ describe("DocumentDB Migration API Tests", () => {
     const res = await axios.get(`${BASE_URL}/test3`);
     const data = res.data;
     console.log("Test 3 data:", data);
-    expect(res.status).toBe(200);
+    expect(data.oldSurveyOptOutCount).toBe(data.newSurveyOptOutCount);
   });
 
   //   test("should find a survey by surveyId", async () => {
