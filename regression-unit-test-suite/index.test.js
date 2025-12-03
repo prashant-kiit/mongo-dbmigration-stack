@@ -25,13 +25,13 @@ describe("DocumentDB Migration API Tests", () => {
     expect(data.oldSurveyOptOutCount).toBe(data.newSurveyOptOutCount);
   });
 
-  //   test("should find a survey by surveyId", async () => {
-  //     const surveyId = 24717;
-  //     const res = await axios.get(`${BASE_URL}/test4`, {
-  //       params: { surveyId }
-  //     });
-  //     expect(res.status).toBe(200);
-  //   });
+  test("should find a survey by surveyId", async () => {
+    const surveyId = 24717;
+    const res = await axios.get(`${BASE_URL}/test4?surveyId=${surveyId}`);
+    const data = res.data;
+    console.log("Test 4 data:", data);
+    expect(res.status).toBe(200);
+  });
 
   //   test("should verify responder existence in collection", async () => {
   //     const res = await axios.get(`${BASE_URL}/test5`);
