@@ -6,7 +6,7 @@ describe("DocumentDB Migration API Tests", () => {
   test("should fetch all surveys", async () => {
     const res = await axios.get(`${BASE_URL}/test1`);
     const data = res.data;
-    console.log("data:", data);
+    console.log("Test 1 data:", data);
     expect(data.oldSurveyCount).toBe(data.newSurveyCount);
   });
 
@@ -14,14 +14,16 @@ describe("DocumentDB Migration API Tests", () => {
     const responderObjectId = "5e3c808ad16833762c17c5bc";
     const res = await axios.get(`${BASE_URL}/test2?responderObjectId=${responderObjectId}`);
     const data = res.data;
-    console.log("data:", data);
+    console.log("Test 2 data:", data);
     expect(data.oldResponderCount).toBe(data.newResponderCount);
   });
 
-  //   test("should fetch survey opt-out information", async () => {
-  //     const res = await axios.get(`${BASE_URL}/test3`);
-  //     expect(res.status).toBe(200);
-  //   });
+  test("should fetch survey opt-out information", async () => {
+    const res = await axios.get(`${BASE_URL}/test3`);
+    const data = res.data;
+    console.log("Test 3 data:", data);
+    expect(res.status).toBe(200);
+  });
 
   //   test("should find a survey by surveyId", async () => {
   //     const surveyId = 24717;
