@@ -30,7 +30,7 @@ describe("DocumentDB Migration API Tests", () => {
     const res = await axios.get(`${BASE_URL}/test4?surveyId=${surveyId}`);
     const data = res.data;
     console.log("Test 4 data:", data);
-    expect(res.status).toBe(200);
+    expect(data.oldSurvey).toBe(data.newSurvey);
   });
 
   //   test("should verify responder existence in collection", async () => {
