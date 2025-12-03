@@ -37,7 +37,7 @@ describe("DocumentDB Migration API Tests", () => {
     const res = await axios.get(`${BASE_URL}/test5`);
     const data = res.data;
     console.log("Test 5 data:", data);
-    expect(res.status).toBe(200);
+    expect(data.oldResponders).toEqual(data.newResponders);
   });
 
   //   test("should update a survey record using surveyId and sampling flag", async () => {
