@@ -33,10 +33,12 @@ describe("DocumentDB Migration API Tests", () => {
     expect(data.oldSurvey).toEqual(data.newSurvey);
   });
 
-  //   test("should verify responder existence in collection", async () => {
-  //     const res = await axios.get(`${BASE_URL}/test5`);
-  //     expect(res.status).toBe(200);
-  //   });
+  test("should verify responder existence in collection", async () => {
+    const res = await axios.get(`${BASE_URL}/test5`);
+    const data = res.data;
+    console.log("Test 5 data:", data);
+    expect(res.status).toBe(200);
+  });
 
   //   test("should update a survey record using surveyId and sampling flag", async () => {
   //     const res = await axios.get(`${BASE_URL}/test6`, {
