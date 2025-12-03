@@ -10,13 +10,13 @@ describe("DocumentDB Migration API Tests", () => {
     expect(data.oldSurveyCount).toBe(data.newSurveyCount);
   });
 
-  //   test("should fetch responders by responderObjectId", async () => {
-  //     const responderObjectId = "5e3c808ad16833762c17c5bc";
-  //     const res = await axios.get(`${BASE_URL}/test2`, {
-  //       params: { responderObjectId }
-  //     });
-  //     expect(res.status).toBe(200);
-  //   });
+  test("should fetch responders by responderObjectId", async () => {
+    const responderObjectId = "5e3c808ad16833762c17c5bc";
+    const res = await axios.get(`${BASE_URL}/test2?responderObjectId=${responderObjectId}`);
+    const data = res.data;
+    console.log("data:", data);
+    expect(res.status).toBe(200);
+  });
 
   //   test("should fetch survey opt-out information", async () => {
   //     const res = await axios.get(`${BASE_URL}/test3`);
