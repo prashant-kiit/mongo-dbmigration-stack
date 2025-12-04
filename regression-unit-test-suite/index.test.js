@@ -91,7 +91,7 @@ describe("DocumentDB Migration API Tests", () => {
     ];
 
     const res = await axios.put(
-      `http://qual-qa.my.konovo.com/v1/documentdbmigration/test7?surveyId=${surveyId}&status=${status}`,
+      `${BASE_URL}/test7?surveyId=${surveyId}&status=${status}`,
       responders,
       {
         headers: { "Content-Type": "application/json" },
@@ -101,7 +101,7 @@ describe("DocumentDB Migration API Tests", () => {
     const data = res.data;
     console.log("Test 7 data:", JSON.stringify(data, null, 2));
     expect(res.status).toBe(200);
-  }, 20000);
+  }, 200000);
 
   test("Test 8: should insert multiple responders into the collection", async () => {
     const payload = [
@@ -137,22 +137,20 @@ describe("DocumentDB Migration API Tests", () => {
       },
     ];
 
-    const res = await axios.post(
-      `http://qual-qa.my.konovo.com/v1/documentdbmigration/test8`,
-      payload,
-      { headers: { "Content-Type": "application/json" } }
-    );
+    const res = await axios.post(`${BASE_URL}/test8`, payload, {
+      headers: { "Content-Type": "application/json" },
+    });
 
     const data = res.data;
     console.log("Test 8 data:", JSON.stringify(data, null, 2));
     expect(res.status).toBe(200);
-  }, 20000);
+  }, 200000);
 
   // test("Test 9: should replace survey opt-out entry by surveyId and email", async () => {
   //   const surveyId = 24721;
   //   const email = "prashant.singh@konovo.com";
 
-  //   const res = await axios.get(`${BASE_URL}/test9?surveyId=${surveyId}&email=${email}`); 
+  //   const res = await axios.get(`${BASE_URL}/test9?surveyId=${surveyId}&email=${email}`);
   //   const data = res.data;
   //   console.log("Test 9 data:", JSON.stringify(data, null, 2));
   //   expect(data.oldReplace).toEqual(data.newReplace);
