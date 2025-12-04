@@ -40,15 +40,14 @@ describe("DocumentDB Migration API Tests", () => {
     expect(data.oldResponders).toEqual(data.newResponders);
   });
 
-  //   test("should update a survey record using surveyId and sampling flag", async () => {
-  //     const res = await axios.get(`${BASE_URL}/test6`, {
-  //       params: {
-  //         surveyIdToUpdate: 24717,
-  //         isSampling: true
-  //       }
-  //     });
-  //     expect(res.status).toBe(200);
-  //   });
+  test("should update a survey record using surveyId and sampling flag", async () => {
+    const surveyIdToUpdate = 24717;
+    const isSampling = true;
+    const res = await axios.get(`${BASE_URL}/test6?surveyIdToUpdate=${surveyIdToUpdate}&isSampling=${isSampling}`);
+    const data = res.data;
+    console.log("Test 6 data:", data);
+    expect(res.status).toBe(200);
+  });
 
   //   test("should update multiple responders for a given survey", async () => {
   //     const surveyId = 15011;
