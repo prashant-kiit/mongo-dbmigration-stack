@@ -3,14 +3,14 @@ const axios = require("axios");
 describe("DocumentDB Migration API Tests", () => {
   const BASE_URL = "http://localhost:9001/v1/documentdbmigration";
 
-  test("should fetch all surveys", async () => {
+  test("Test 1: should fetch all surveys", async () => {
     const res = await axios.get(`${BASE_URL}/test1`);
     const data = res.data;
     console.log("Test 1 data:", data);
     expect(data.oldSurveyCount).toBe(data.newSurveyCount);
   });
 
-  test("should fetch responders by responderObjectId", async () => {
+  test("Test 2: should fetch responders by responderObjectId", async () => {
     const responderObjectId = "5e3c808ad16833762c17c5bc";
     const res = await axios.get(
       `${BASE_URL}/test2?responderObjectId=${responderObjectId}`
@@ -20,14 +20,14 @@ describe("DocumentDB Migration API Tests", () => {
     expect(data.oldResponderCount).toBe(data.newResponderCount);
   });
 
-  test("should fetch survey opt-out information", async () => {
+  test("Test 3: should fetch survey opt-out information", async () => {
     const res = await axios.get(`${BASE_URL}/test3`);
     const data = res.data;
     console.log("Test 3 data:", data);
     expect(data.oldSurveyOptOutCount).toBe(data.newSurveyOptOutCount);
   });
 
-  test("should find a survey by surveyId", async () => {
+  test("Test 4: should find a survey by surveyId", async () => {
     const surveyId = 24717;
     const res = await axios.get(`${BASE_URL}/test4?surveyId=${surveyId}`);
     const data = res.data;
@@ -35,14 +35,14 @@ describe("DocumentDB Migration API Tests", () => {
     expect(data.oldSurvey).toEqual(data.newSurvey);
   });
 
-  test("should verify responder existence in collection", async () => {
+  test("Test 5: should verify responder existence in collection", async () => {
     const res = await axios.get(`${BASE_URL}/test5`);
     const data = res.data;
     console.log("Test 5 data:", data);
     expect(data.oldResponders).toEqual(data.newResponders);
   });
 
-  test("should update a survey record using surveyId and sampling flag", async () => {
+  test("Test 6: should update a survey record using surveyId and sampling flag", async () => {
     const surveyIdToUpdate = 24717;
     const isSampling = true;
     const res = await axios.get(
@@ -53,7 +53,7 @@ describe("DocumentDB Migration API Tests", () => {
     expect(data.oldUpdateResult).toEqual(data.newUpdateResult);
   });
 
-  test("should update multiple responders for a given survey", async () => {
+  test("Test 7: should update multiple responders for a given survey", async () => {
     const surveyId = 15011;
     const status = "invited";
 
@@ -103,7 +103,7 @@ describe("DocumentDB Migration API Tests", () => {
     expect(res.status).toBe(200);
   }, 20000);
 
-  test("should insert multiple responders into the collection", async () => {
+  test("Test 8: should insert multiple responders into the collection", async () => {
     const payload = [
       {
         crowdId: 50000,
@@ -148,7 +148,7 @@ describe("DocumentDB Migration API Tests", () => {
     expect(res.status).toBe(200);
   }, 20000);
 
-  test("should replace survey opt-out entry by surveyId and email", async () => {
+  test("Test 9: should replace survey opt-out entry by surveyId and email", async () => {
     const surveyId = 24721;
     const email = "prashant.singh@konovo.com";
 
