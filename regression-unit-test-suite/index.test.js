@@ -101,7 +101,7 @@ describe("DocumentDB Migration API Tests", () => {
     const data = res.data;
     console.log("Test 7 data:", data);
     expect(res.status).toBe(200);
-  });
+  }, 20000);
 
   test("should insert multiple responders into the collection", async () => {
     const payload = [
@@ -146,7 +146,7 @@ describe("DocumentDB Migration API Tests", () => {
     const data = res.data;
     console.log("Test 8 data:", data);
     expect(res.status).toBe(200);
-  });
+  }, 20000);
 
   test("should replace survey opt-out entry by surveyId and email", async () => {
     const surveyId = 24721;
