@@ -12,7 +12,9 @@ describe("DocumentDB Migration API Tests", () => {
 
   test("should fetch responders by responderObjectId", async () => {
     const responderObjectId = "5e3c808ad16833762c17c5bc";
-    const res = await axios.get(`${BASE_URL}/test2?responderObjectId=${responderObjectId}`);
+    const res = await axios.get(
+      `${BASE_URL}/test2?responderObjectId=${responderObjectId}`
+    );
     const data = res.data;
     console.log("Test 2 data:", data);
     expect(data.oldResponderCount).toBe(data.newResponderCount);
@@ -43,112 +45,117 @@ describe("DocumentDB Migration API Tests", () => {
   test("should update a survey record using surveyId and sampling flag", async () => {
     const surveyIdToUpdate = 24717;
     const isSampling = true;
-    const res = await axios.get(`${BASE_URL}/test6?surveyIdToUpdate=${surveyIdToUpdate}&isSampling=${isSampling}`);
+    const res = await axios.get(
+      `${BASE_URL}/test6?surveyIdToUpdate=${surveyIdToUpdate}&isSampling=${isSampling}`
+    );
     const data = res.data;
     console.log("Test 6 data:", data);
     expect(data.oldUpdateResult).toEqual(data.newUpdateResult);
   });
 
-  //   test("should update multiple responders for a given survey", async () => {
-  //     const surveyId = 15011;
-  //     const status = "invited";
+  test("should update multiple responders for a given survey", async () => {
+    const surveyId = 15011;
+    const status = "invited";
 
-  //     const responders = [
-  //       {
-  //         _id: { $oid: "5e3c808ad16833762c17c5bc" },
-  //         crowdId: 14676,
-  //         firstName: "Dental",
-  //         lastName: "Hygenist",
-  //         email: "incrowdqa+dentalHygienist8@gmail.com",
-  //         attributes: { state: "MA", gender: "M" },
-  //         surveys: {
-  //           "15011": {
-  //             invites: 3,
-  //             lastInvite: "2020-02-07T16:00:01.453Z",
-  //             status: "invited"
-  //           }
-  //         }
-  //       },
-  //       {
-  //         _id: { $oid: "5e3c808ad16833762c17c5bd" },
-  //         crowdId: 14676,
-  //         firstName: "Dental",
-  //         lastName: "Hygenist",
-  //         email: "incrowdqa+dentalHygienist9@gmail.com",
-  //         attributes: { state: "MA", gender: "M" },
-  //         surveys: {
-  //           "15011": {
-  //             invites: 3,
-  //             lastInvite: "2020-02-07T16:00:01.453Z",
-  //             status: "invited"
-  //           }
-  //         }
-  //       }
-  //     ];
+    const responders = [
+      {
+        _id: { $oid: "5e3c808ad16833762c17c5bc" },
+        crowdId: 14676,
+        firstName: "Dental",
+        lastName: "Hygenist",
+        email: "incrowdqa+dentalHygienist8@gmail.com",
+        attributes: { state: "MA", gender: "M" },
+        surveys: {
+          15011: {
+            invites: 3,
+            lastInvite: "2020-02-07T16:00:01.453Z",
+            status: "invited",
+          },
+        },
+      },
+      {
+        _id: { $oid: "5e3c808ad16833762c17c5bd" },
+        crowdId: 14676,
+        firstName: "Dental",
+        lastName: "Hygenist",
+        email: "incrowdqa+dentalHygienist9@gmail.com",
+        attributes: { state: "MA", gender: "M" },
+        surveys: {
+          15011: {
+            invites: 3,
+            lastInvite: "2020-02-07T16:00:01.453Z",
+            status: "invited",
+          },
+        },
+      },
+    ];
 
-  //     const res = await axios.put(
-  //       `http://qual-qa.my.konovo.com/v1/documentdbmigration/test7`,
-  //       responders,
-  //       {
-  //         params: { surveyId, status },
-  //         headers: { "Content-Type": "application/json" }
-  //       }
-  //     );
+    const res = await axios.put(
+      `http://qual-qa.my.konovo.com/v1/documentdbmigration/test7?surveyId=${surveyId}&status=${status}`,
+      responders,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
 
-  //     expect(res.status).toBe(200);
-  //   });
+    const data = res.data;
+    console.log("Test 7 data:", data);
+    expect(res.status).toBe(200);
+  });
 
-  //   test("should insert multiple responders into the collection", async () => {
-  //     const payload = [
-  //       {
-  //         crowdId: 50000,
-  //         firstName: "Dental",
-  //         lastName: "Hygenist",
-  //         email: "incrowdqa+dentalHygienist8@gmail.com",
-  //         attributes: { state: "MA", gender: "M" },
-  //         surveys: {
-  //           "15011": {
-  //             invites: 3,
-  //             lastInvite: "2020-02-07T16:00:01.453Z",
-  //             status: "invited"
-  //           }
-  //         },
-  //         optedOutOn: null
-  //       },
-  //       {
-  //         crowdId: 50001,
-  //         firstName: "Dental",
-  //         lastName: "Hygenist",
-  //         email: "incrowdqa+dentalHygienist9@gmail.com",
-  //         attributes: { state: "MA", gender: "M" },
-  //         surveys: {
-  //           "15011": {
-  //             invites: 3,
-  //             lastInvite: "2020-02-07T16:00:01.453Z",
-  //             status: "invited"
-  //           }
-  //         },
-  //         optedOutOn: null
-  //       }
-  //     ];
+  test("should insert multiple responders into the collection", async () => {
+    const payload = [
+      {
+        crowdId: 50000,
+        firstName: "Dental",
+        lastName: "Hygenist",
+        email: "incrowdqa+dentalHygienist8@gmail.com",
+        attributes: { state: "MA", gender: "M" },
+        surveys: {
+          15011: {
+            invites: 3,
+            lastInvite: "2020-02-07T16:00:01.453Z",
+            status: "invited",
+          },
+        },
+        optedOutOn: null,
+      },
+      {
+        crowdId: 50001,
+        firstName: "Dental",
+        lastName: "Hygenist",
+        email: "incrowdqa+dentalHygienist9@gmail.com",
+        attributes: { state: "MA", gender: "M" },
+        surveys: {
+          15011: {
+            invites: 3,
+            lastInvite: "2020-02-07T16:00:01.453Z",
+            status: "invited",
+          },
+        },
+        optedOutOn: null,
+      },
+    ];
 
-  //     const res = await axios.post(
-  //       `http://qual-qa.my.konovo.com/v1/documentdbmigration/test8`,
-  //       payload,
-  //       { headers: { "Content-Type": "application/json" } }
-  //     );
+    const res = await axios.post(
+      `http://qual-qa.my.konovo.com/v1/documentdbmigration/test8`,
+      payload,
+      { headers: { "Content-Type": "application/json" } }
+    );
 
-  //     expect(res.status).toBe(200);
-  //   });
+    const data = res.data;
+    console.log("Test 8 data:", data);
+    expect(res.status).toBe(200);
+  });
 
-  //   test("should replace survey opt-out entry by surveyId and email", async () => {
-  //     const surveyId = 24721;
-  //     const email = "prashant.singh@konovo.com";
+  test("should replace survey opt-out entry by surveyId and email", async () => {
+    const surveyId = 24721;
+    const email = "prashant.singh@konovo.com";
 
-  //     const res = await axios.get(`${BASE_URL}/test9`, {
-  //       params: { surveyId, email }
-  //     });
-
-  //     expect(res.status).toBe(200);
-  //   });
+    const res = await axios.get(`${BASE_URL}/test9?surveyId=${surveyId}&email=${email}`); 
+    const data = res.data;
+    console.log("Test 9 data:", data);
+    expect(data.oldReplace).toEqual(data.newReplace);
+    expect(data.oldItems).toEqual(data.newItems);
+  });
 });

@@ -36,7 +36,7 @@ class DocumentDbStack extends cdk.Stack {
         //   { key: "Application", value: "pvl-users-database" },
         //   { key: "Owner", value: "arijitbose/saravanakumar"},
         //   { key: "Cost Center", value: "arijitbose/saravanakumar"},
-        //   { key: "Project", value: "pvlusers"},
+        //   { key: "Project", value: "qual"},
         //   { key: "Created By", value: "cdk"},
         // ]
       }
