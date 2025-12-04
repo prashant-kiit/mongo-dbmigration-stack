@@ -1,12 +1,14 @@
 const axios = require("axios");
 
+// case based switching for different tests
+
 describe("DocumentDB Migration API Tests", () => {
   const BASE_URL = "http://localhost:9001/v1/documentdbmigration";
 
   test("Test 1: should fetch all surveys", async () => {
     const res = await axios.get(`${BASE_URL}/test1`);
     const data = res.data;
-    console.log("Test 1 data:", data);
+    console.log("Test 1 data:", JSON.stringify(data, null, 2));
     expect(data.oldSurveyCount).toBe(data.newSurveyCount);
   });
 
@@ -16,14 +18,14 @@ describe("DocumentDB Migration API Tests", () => {
       `${BASE_URL}/test2?responderObjectId=${responderObjectId}`
     );
     const data = res.data;
-    console.log("Test 2 data:", data);
+    console.log("Test 2 data:", JSON.stringify(data, null, 2));
     expect(data.oldResponderCount).toBe(data.newResponderCount);
   });
 
   test("Test 3: should fetch survey opt-out information", async () => {
     const res = await axios.get(`${BASE_URL}/test3`);
     const data = res.data;
-    console.log("Test 3 data:", data);
+    console.log("Test 3 data:", JSON.stringify(data, null, 2));
     expect(data.oldSurveyOptOutCount).toBe(data.newSurveyOptOutCount);
   });
 
@@ -31,14 +33,14 @@ describe("DocumentDB Migration API Tests", () => {
     const surveyId = 24717;
     const res = await axios.get(`${BASE_URL}/test4?surveyId=${surveyId}`);
     const data = res.data;
-    console.log("Test 4 data:", data);
+    console.log("Test 4 data:", JSON.stringify(data, null, 2));
     expect(data.oldSurvey).toEqual(data.newSurvey);
   });
 
   test("Test 5: should verify responder existence in collection", async () => {
     const res = await axios.get(`${BASE_URL}/test5`);
     const data = res.data;
-    console.log("Test 5 data:", data);
+    console.log("Test 5 data:", JSON.stringify(data, null, 2));
     expect(data.oldResponders).toEqual(data.newResponders);
   });
 
@@ -49,7 +51,7 @@ describe("DocumentDB Migration API Tests", () => {
       `${BASE_URL}/test6?surveyIdToUpdate=${surveyIdToUpdate}&isSampling=${isSampling}`
     );
     const data = res.data;
-    console.log("Test 6 data:", data);
+    console.log("Test 6 data:", JSON.stringify(data, null, 2));
     expect(data.oldUpdateResult).toEqual(data.newUpdateResult);
   });
 
@@ -99,7 +101,7 @@ describe("DocumentDB Migration API Tests", () => {
     );
 
     const data = res.data;
-    console.log("Test 7 data:", data);
+    console.log("Test 7 data:", JSON.stringify(data, null, 2));
     expect(res.status).toBe(200);
   }, 20000);
 
@@ -144,7 +146,7 @@ describe("DocumentDB Migration API Tests", () => {
     );
 
     const data = res.data;
-    console.log("Test 8 data:", data);
+    console.log("Test 8 data:", JSON.stringify(data, null, 2));
     expect(res.status).toBe(200);
   }, 20000);
 
@@ -154,7 +156,7 @@ describe("DocumentDB Migration API Tests", () => {
 
     const res = await axios.get(`${BASE_URL}/test9?surveyId=${surveyId}&email=${email}`); 
     const data = res.data;
-    console.log("Test 9 data:", data);
+    console.log("Test 9 data:", JSON.stringify(data, null, 2));
     expect(data.oldReplace).toEqual(data.newReplace);
     expect(data.oldItems).toEqual(data.newItems);
   });
