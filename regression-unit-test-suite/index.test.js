@@ -100,7 +100,7 @@ describe("DocumentDB Migration API Tests", () => {
 
     const data = res.data;
     console.log("Test 7 data:", JSON.stringify(data, null, 2));
-    expect(res.status).toBe(200);
+    expect(data.oldUpdateResult).toEqual(data.newUpdateResult);
   }, 200000);
 
   test("Test 8: should insert multiple responders into the collection", async () => {
@@ -143,7 +143,8 @@ describe("DocumentDB Migration API Tests", () => {
 
     const data = res.data;
     console.log("Test 8 data:", JSON.stringify(data, null, 2));
-    expect(res.status).toBe(200);
+    expect(data.oldInsertResult).toEqual(data.newInsertResult);
+    expect(data.oldResponderCountAfterInsert).toEqual(data.newResponderCountAfterInsert);
   }, 200000);
 
   test("Test 9: should replace survey opt-out entry by surveyId and email", async () => {
